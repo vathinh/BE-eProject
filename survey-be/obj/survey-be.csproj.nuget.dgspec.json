@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thinh\\source\\repos\\survey-be\\survey-be\\survey-be.csproj": {}
+    "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thinh\\source\\repos\\survey-be\\survey-be\\survey-be.csproj": {
+    "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thinh\\source\\repos\\survey-be\\survey-be\\survey-be.csproj",
+        "projectUniqueName": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
         "projectName": "survey-be",
-        "projectPath": "C:\\Users\\thinh\\source\\repos\\survey-be\\survey-be\\survey-be.csproj",
+        "projectPath": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
         "packagesPath": "C:\\Users\\thinh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thinh\\source\\repos\\survey-be\\survey-be\\obj\\",
+        "outputPath": "D:\\eProj\\BE-eProject\\survey-be\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

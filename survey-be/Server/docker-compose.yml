@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres_survey:
+    container_name: postgres_survey
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - PGDATA=/data/postgres_survey
+    volumes:
+      - postgres_survey_data:/data/postgres_survey
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres_survey_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser"]
+
+  pgadmin_survey:
+    container_name: pgadmin_survey
+    image: dpage/pgadmin4:5.7
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    volumes:
+      - pgadmin_survey_data:/var/lib/pgadmin_survey
+    ports:
+      - "5050:80"
+    networks:
+      - postgres_survey_network
+    restart: unless-stopped
+
+
+networks:
+  postgres_survey_network:
+    driver: bridge
+
+volumes:
+  postgres_survey_data:
+  pgadmin_survey_data:
