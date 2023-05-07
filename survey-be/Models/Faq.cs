@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace survey_be.Models;
-
-public partial class Faq
+﻿namespace survey_be.Models
 {
-    public int FaqId { get; set; }
-
-    public int UserId { get; set; }
-
-    public string FaqContent { get; set; } = null!;
-
-    public virtual Userdatum User { get; set; } = null!;
+    public class Faq
+    {
+        public int FaqId { get; set; }
+        public string FaqQuestion { get; set; }
+        public string FaqContent { get; set; }
+    }
 }

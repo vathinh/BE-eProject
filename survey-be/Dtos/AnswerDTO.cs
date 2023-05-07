@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using survey_be.Models;
 
-namespace survey_be.Models
+namespace survey_be.Dtos
 {
-    public class Answer
+    public class AnswerDTO
     {
-        [Key]
         public int AnswerId { get; set; }
         public bool CorrectAnswer { get; set; }
         public string AnswerContent { get; set; }
         public int QuestionId { get; set; }
-        public virtual Question Question { get; set; }
     }
 }

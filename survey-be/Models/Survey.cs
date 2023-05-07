@@ -1,29 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace survey_be.Models;
-
-public partial class Survey
+namespace survey_be.Models
 {
-    public int SurveyId { get; set; }
+    public class Survey
+    {
+        [Key]
+        public int SurveyId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Img { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Response> Responses { get; set; }
+        public virtual ICollection<CompetitionContent> CompetitionContents { get; set; }
 
-    public int UserId { get; set; }
 
-    public string SurveyType { get; set; } = null!;
 
-    public string SurveyTitle { get; set; } = null!;
-
-    public string SurveyName { get; set; } = null!;
-
-    public string StatusSurvey { get; set; } = null!;
-
-    public int? TotalMark { get; set; }
-
-    public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
-
-    public virtual ICollection<Competition> Competitions { get; set; } = new List<Competition>();
-
-    public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
-
-    public virtual Userdatum User { get; set; } = null!;
+    }
 }

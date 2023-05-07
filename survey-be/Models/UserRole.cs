@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace survey_be.Models;
-
-public partial class UserRole
+﻿namespace survey_be.Models
 {
-    public int RoleId { get; set; }
-
-    public int UserId { get; set; }
-
-    public virtual Userdatum User { get; set; } = null!;
+    public class UserRole
+    {
+        public int UserRoleId { get; set; }
+        public string UserRoleName { get; set; }
+        public virtual ICollection<UserInfo> UserInfos { get; set; }
+    }
 }
