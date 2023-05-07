@@ -10,5 +10,10 @@ namespace survey_be.Models
         public string Description { get; set; }
         public string Img { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Response> Responses { get; set; }
+        public virtual ICollection<CompetitionContent> CompetitionContents { get; set; }
+
+
+
     }
 }
