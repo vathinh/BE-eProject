@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace survey_be.Models
+namespace survey_be.Dtos
 {
-    public class Faq
+    public class FaqDTO
     {
-        [Key]
         public int FaqId { get; set; }
         public string FaqQuestion { get; set; }
         public string FaqContent { get; set; }
