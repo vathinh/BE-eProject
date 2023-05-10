@@ -21,6 +21,8 @@ namespace survey_be.Controllers
             _context = context;
         }
 
+
+        // READ TO LIST UserRole
         // GET: api/UserRoles
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
@@ -32,6 +34,7 @@ namespace survey_be.Controllers
             return await _context.UserRoles.ToListAsync();
         }
 
+        // READ BY ID
         // GET: api/UserRoles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserRole>> GetUserRole(int id)
@@ -50,6 +53,8 @@ namespace survey_be.Controllers
             return userRole;
         }
 
+
+        // EDIT
         // PUT: api/UserRoles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -81,6 +86,8 @@ namespace survey_be.Controllers
             return NoContent();
         }
 
+
+        // CREATE
         // POST: api/UserRoles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -96,6 +103,8 @@ namespace survey_be.Controllers
             return CreatedAtAction("GetUserRole", new { id = userRole.UserRoleId }, userRole);
         }
 
+
+        // DELETE
         // DELETE: api/UserRoles/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserRole(int id)

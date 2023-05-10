@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zHQSN1K16mIpbZbHCGhHAoIXCoOKuMbx6thWAwcHthSuehzVOtXRU359+VI6qdWI5aptqw6Nj2ICfQUzpWpaSg==",
+  "dgSpecHash": "slCtAWTohWFV37JqVBpFkxKx/NwJToxbg7eG4zGyze7Z1DU5+NxwAPGa/yI7c0NewGWPOqNDv3tV4nFEUZ+MPA==",
   "success": true,
   "projectFilePath": "D:\\FPTAPTECH\\SEM03\\EPROJECT SEM03\\Project Survey\\Repos\\BE-eProject\\survey-be\\survey-be.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\liquibase.cli\\4.21.1\\liquibase.cli.4.21.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.5\\microsoft.aspnetcore.jsonpatch.7.0.5.nupkg.sha512",
@@ -201,12 +202,5 @@
     "C:\\Users\\Admin\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\FPTAPTECH\\SEM03\\EPROJECT SEM03\\Project Survey\\Repos\\BE-eProject\\survey-be\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

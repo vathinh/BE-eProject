@@ -607,3 +607,4 @@ D:\FPTAPTECH\SEM03\EPROJECT SEM03\Project Survey\Repos\BE-eProject\survey-be\obj
 D:\FPTAPTECH\SEM03\EPROJECT SEM03\Project Survey\Repos\BE-eProject\survey-be\obj\Debug\net7.0\survey-be.pdb
 D:\FPTAPTECH\SEM03\EPROJECT SEM03\Project Survey\Repos\BE-eProject\survey-be\obj\Debug\net7.0\survey-be.genruntimeconfig.cache
 D:\FPTAPTECH\SEM03\EPROJECT SEM03\Project Survey\Repos\BE-eProject\survey-be\obj\Debug\net7.0\ref\survey-be.dll
+D:\FPTAPTECH\SEM03\EPROJECT SEM03\Project Survey\Repos\BE-eProject\survey-be\bin\Debug\net7.0\BCrypt.Net-Next.dll
