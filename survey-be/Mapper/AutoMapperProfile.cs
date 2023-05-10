@@ -11,6 +11,9 @@ namespace survey_be.Mapper
             CreateMap<SurveyDTO, Survey>();
             CreateMap<QuestionDTO, Question>();
             CreateMap<AnswerDTO, Answer>();
+            CreateMap<CompetitionContentDTO, CompetitionContent>();
+            CreateMap<FaqDTO, Faq>();
+            CreateMap<SupportInformationDTO, SupportInformation>();
 
         }
     }
