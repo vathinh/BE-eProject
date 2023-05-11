@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SlVpnB42kr3OXncoo7NIs/zT+Pe18p9tRlsIKA1lNlWFlR9mjDotRCJklCaRpIcJAIZff2qa84+mxxBJwUXVsg==",
+  "dgSpecHash": "yLGwgYkghQqaD7ufK0/pqBzV1q/XoCNxrucKXkGPv99U9vWqDqrrYl3alHimXg++0vFMs1V9/RdEXvuFja+8Dg==",
   "success": true,
   "projectFilePath": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\thinh\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\thinh\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\thinh\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\thinh\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\thinh\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\thinh\\.nuget\\packages\\liquibase.cli\\4.21.1\\liquibase.cli.4.21.1.nupkg.sha512",
     "C:\\Users\\thinh\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.5\\microsoft.aspnetcore.jsonpatch.7.0.5.nupkg.sha512",
