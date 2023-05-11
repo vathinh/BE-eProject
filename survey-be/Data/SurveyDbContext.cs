@@ -144,6 +144,11 @@ namespace survey_be.Data
                 entity.Property(e => e.Title).IsRequired();
                 entity.Property(e => e.Description).IsRequired();
                 entity.Property(e => e.Img).IsRequired();
+
+                entity.HasOne(e => e.UserRole)
+                  .WithMany(e => e.Surveys)
+                  .HasForeignKey(e => e.UserRoleId)
+                  .OnDelete(DeleteBehavior.Cascade);
             });
 
             //Question table
@@ -186,9 +191,9 @@ namespace survey_be.Data
 
             // Seed data
             modelBuilder.Entity<Survey>().HasData(
-                new Survey { SurveyId = 1, Title = "Survey 1", Description = "Description for Survey 1", Img = "img1.jpg" },
-                new Survey { SurveyId = 2, Title = "Survey 2", Description = "Description for Survey 2", Img = "img2.jpg" },
-                new Survey { SurveyId = 3, Title = "Survey 3", Description = "Description for Survey 3", Img = "img3.jpg" }
+                new Survey { SurveyId = 1, Title = "Survey 1", Description = "Description for Survey 1", Img = "img1.jpg", UserRoleId = 2 },
+                new Survey { SurveyId = 2, Title = "Survey 2", Description = "Description for Survey 2", Img = "img2.jpg", UserRoleId = 2 },
+                new Survey { SurveyId = 3, Title = "Survey 3", Description = "Description for Survey 3", Img = "img3.jpg", UserRoleId = 3 }
             );
 
             modelBuilder.Entity<Question>().HasData(

@@ -1,20 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace survey_be.Models
+﻿namespace survey_be.Dtos
 {
-    public class CompetitionContent
+    public class CompetitionContentDTO
     {
-        [Key]
         public int CompetitionContentId { get; set; }
         public string Name { get; set; }
         public DateTime TimeStartCompetition { get; set; }
         public DateTime TimeEndCompetition { get; set; }
         public string Location { get; set; }
-
         public int SurveyId { get; set; }
-        public virtual Survey Survey { get; set; }
-
-        public virtual ICollection<CompetitionResult> CompetitionResults { get; set; }
+        public virtual ICollection<CompetitionResultDTO>? CompetitionResults { get; set; }
 
     }
 }
