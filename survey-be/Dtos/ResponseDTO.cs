@@ -1,17 +1,13 @@
-﻿namespace survey_be.Models
+﻿using survey_be.Models;
+
+namespace survey_be.Dtos
 {
-    public class Response
+    public class ResponseDTO
     {
         public int ResponseId { get; set; }
         public int TotalMark { get; set; }
-
         public int SurveyId { get; set; }
-        public virtual Survey Survey { get; set; }
-
         public int UserId { get; set; }
-        public virtual UserInfo UserInfo { get; set; }
-
         public virtual ICollection<CompetitionResult> CompetitionResults { get; set; }
-
     }
 }

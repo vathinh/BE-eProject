@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using survey_be.Data;
@@ -11,9 +12,11 @@ using survey_be.Data;
 namespace survey_be.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    partial class SurveyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230511085630_UpdateRole")]
+    partial class UpdateRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,8 +111,8 @@ namespace survey_be.Migrations
                             Location = "District 1",
                             Name = "Competition 1",
                             SurveyId = 1,
-                            TimeEndCompetition = new DateTime(2023, 5, 18, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4051),
-                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4049)
+                            TimeEndCompetition = new DateTime(2023, 5, 18, 8, 56, 30, 884, DateTimeKind.Utc).AddTicks(3009),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 56, 30, 884, DateTimeKind.Utc).AddTicks(3007)
                         },
                         new
                         {
@@ -117,8 +120,8 @@ namespace survey_be.Migrations
                             Location = "District 2",
                             Name = "Competition 2",
                             SurveyId = 2,
-                            TimeEndCompetition = new DateTime(2023, 5, 25, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4059),
-                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4058)
+                            TimeEndCompetition = new DateTime(2023, 5, 25, 8, 56, 30, 884, DateTimeKind.Utc).AddTicks(3017),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 56, 30, 884, DateTimeKind.Utc).AddTicks(3016)
                         },
                         new
                         {
@@ -126,8 +129,8 @@ namespace survey_be.Migrations
                             Location = "District 3",
                             Name = "Competition 3",
                             SurveyId = 3,
-                            TimeEndCompetition = new DateTime(2023, 6, 1, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4061),
-                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4060)
+                            TimeEndCompetition = new DateTime(2023, 6, 1, 8, 56, 30, 884, DateTimeKind.Utc).AddTicks(3019),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 56, 30, 884, DateTimeKind.Utc).AddTicks(3018)
                         });
                 });
 

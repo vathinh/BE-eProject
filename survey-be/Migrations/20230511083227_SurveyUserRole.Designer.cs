@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using survey_be.Data;
@@ -11,9 +12,11 @@ using survey_be.Data;
 namespace survey_be.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    partial class SurveyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230511083227_SurveyUserRole")]
+    partial class SurveyUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,8 +111,8 @@ namespace survey_be.Migrations
                             Location = "District 1",
                             Name = "Competition 1",
                             SurveyId = 1,
-                            TimeEndCompetition = new DateTime(2023, 5, 18, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4051),
-                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4049)
+                            TimeEndCompetition = new DateTime(2023, 5, 18, 8, 32, 27, 482, DateTimeKind.Utc).AddTicks(723),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 32, 27, 482, DateTimeKind.Utc).AddTicks(719)
                         },
                         new
                         {
@@ -117,8 +120,8 @@ namespace survey_be.Migrations
                             Location = "District 2",
                             Name = "Competition 2",
                             SurveyId = 2,
-                            TimeEndCompetition = new DateTime(2023, 5, 25, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4059),
-                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4058)
+                            TimeEndCompetition = new DateTime(2023, 5, 25, 8, 32, 27, 482, DateTimeKind.Utc).AddTicks(735),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 32, 27, 482, DateTimeKind.Utc).AddTicks(735)
                         },
                         new
                         {
@@ -126,8 +129,8 @@ namespace survey_be.Migrations
                             Location = "District 3",
                             Name = "Competition 3",
                             SurveyId = 3,
-                            TimeEndCompetition = new DateTime(2023, 6, 1, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4061),
-                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4060)
+                            TimeEndCompetition = new DateTime(2023, 6, 1, 8, 32, 27, 482, DateTimeKind.Utc).AddTicks(737),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 32, 27, 482, DateTimeKind.Utc).AddTicks(737)
                         });
                 });
 
@@ -343,11 +346,16 @@ namespace survey_be.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("UserRoleId")
+                        .HasColumnType("integer");
+
                     b.HasKey("ResponseId");
 
                     b.HasIndex("SurveyId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Responses");
 
@@ -479,12 +487,7 @@ namespace survey_be.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserRoleId")
-                        .HasColumnType("integer");
-
                     b.HasKey("SurveyId");
-
-                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Surveys");
 
@@ -494,24 +497,21 @@ namespace survey_be.Migrations
                             SurveyId = 1,
                             Description = "Description for Survey 1",
                             Img = "img1.jpg",
-                            Title = "Survey 1",
-                            UserRoleId = 2
+                            Title = "Survey 1"
                         },
                         new
                         {
                             SurveyId = 2,
                             Description = "Description for Survey 2",
                             Img = "img2.jpg",
-                            Title = "Survey 2",
-                            UserRoleId = 2
+                            Title = "Survey 2"
                         },
                         new
                         {
                             SurveyId = 3,
                             Description = "Description for Survey 3",
                             Img = "img3.jpg",
-                            Title = "Survey 3",
-                            UserRoleId = 3
+                            Title = "Survey 3"
                         });
                 });
 
@@ -730,6 +730,10 @@ namespace survey_be.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("survey_be.Models.UserRole", null)
+                        .WithMany("Responses")
+                        .HasForeignKey("UserRoleId");
+
                     b.Navigation("Survey");
 
                     b.Navigation("UserInfo");
@@ -744,17 +748,6 @@ namespace survey_be.Migrations
                         .IsRequired();
 
                     b.Navigation("UserInfo");
-                });
-
-            modelBuilder.Entity("survey_be.Models.Survey", b =>
-                {
-                    b.HasOne("survey_be.Models.UserRole", "UserRole")
-                        .WithMany("Surveys")
-                        .HasForeignKey("UserRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("survey_be.Models.UserInfo", b =>
@@ -806,7 +799,7 @@ namespace survey_be.Migrations
 
             modelBuilder.Entity("survey_be.Models.UserRole", b =>
                 {
-                    b.Navigation("Surveys");
+                    b.Navigation("Responses");
 
                     b.Navigation("UserInfos");
                 });

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace survey_be.Controllers
 
         // GET: api/Surveys
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Survey>>> GetSurveys()
+        public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetSurveys()
         {
           if (_context.Surveys == null)
           {
@@ -37,12 +38,13 @@ namespace survey_be.Controllers
                 .Include(_=>_.Questions)
                 .ThenInclude(_=>_.Answers)
                 .ToListAsync();
-            return Ok(surveys);
+            var surveyDTOs = _mapper.Map<List<SurveyDTO>>(surveys);
+            return Ok(surveyDTOs);
         }
 
-        // GET: api/Surveys/5
+        // GET: api/Surveys/ for student
         [HttpGet("{id}")]
-        public async Task<ActionResult<Survey>> GetSurvey(int id)
+        public async Task<ActionResult<SurveyDTO>> GetSurveyStudent(int id)
         {
           if (_context.Surveys == null)
           {
@@ -51,15 +53,18 @@ namespace survey_be.Controllers
             var survey = await _context.Surveys
                 .Include(_=>_.Questions)
                 .ThenInclude(_=>_.Answers)
-                .Where(_=>_.SurveyId == id).ToListAsync();
+                .Where(_=>_.UserRoleId == id).ToListAsync();
+            var surveyDTO = _mapper.Map<List<SurveyDTO>>(survey);
 
             if (survey == null)
             {
                 return NotFound();
             }
 
-            return Ok(survey);
+            return Ok(surveyDTO);
         }
+
+    
 
         // PUT: api/Surveys/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
