@@ -8,6 +8,5 @@ namespace survey_be.Dtos
         public int TotalMark { get; set; }
         public int SurveyId { get; set; }
         public int UserId { get; set; }
-        public virtual ICollection<CompetitionResult> CompetitionResults { get; set; }
     }
 }

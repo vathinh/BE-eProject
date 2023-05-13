@@ -9,7 +9,6 @@ namespace survey_be.Dtos
         public string Description { get; set; }
         public string Img { get; set; }
         public int UserRoleId { get; set; }
-        public virtual UserRole UserRole { get; set; }
         public virtual ICollection<QuestionDTO> Questions { get; set; }
     }
 }

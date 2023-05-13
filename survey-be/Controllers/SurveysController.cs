@@ -42,9 +42,9 @@ namespace survey_be.Controllers
             return Ok(surveyDTOs);
         }
 
-        // GET: api/Surveys/ for student
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SurveyDTO>> GetSurveyStudent(int id)
+        // GET: api/Surveys/ for roles
+        [HttpGet("/role/{id}")]
+        public async Task<ActionResult<SurveyDTO>> GetSurveyByRole(int id)
         {
           if (_context.Surveys == null)
           {
@@ -64,7 +64,29 @@ namespace survey_be.Controllers
             return Ok(surveyDTO);
         }
 
-    
+        // GET: api/Surveys/ by surveyId
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SurveyDTO>> GetSurveyById(int id)
+        {
+            if (_context.Surveys == null)
+            {
+                return NotFound();
+            }
+            var survey = await _context.Surveys
+                .Include(_ => _.Questions)
+                .ThenInclude(_ => _.Answers)
+                .Where(_ => _.SurveyId == id).ToListAsync();
+            var surveyDTO = _mapper.Map<List<SurveyDTO>>(survey);
+
+            if (survey == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(surveyDTO);
+        }
+
+
 
         // PUT: api/Surveys/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -91,15 +113,23 @@ namespace survey_be.Controllers
         [HttpPost]
         public async Task<ActionResult<SurveyDTO>> PostSurvey(SurveyDTO payloadSurvey)
         {
-          if (_context.Surveys == null)
-          {
-              return Problem("Entity set 'SurveyDbContext.Surveys'  is null.");
-          }
-            var newSurvey = _mapper.Map<Survey>(payloadSurvey);
-            _context.Surveys.Add(newSurvey);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (_context.Surveys == null)
+                {
+                    return Problem("Entity set 'SurveyDbContext.Surveys'  is null.");
+                }
+                var newSurvey = _mapper.Map<Survey>(payloadSurvey);
+                _context.Surveys.Add(newSurvey);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSurvey", new { id = payloadSurvey.SurveyId }, payloadSurvey);
+                return CreatedAtAction("GetSurveyById", new { id = payloadSurvey.SurveyId }, payloadSurvey);
+
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+     
         }
 
         // DELETE: api/Surveys/5

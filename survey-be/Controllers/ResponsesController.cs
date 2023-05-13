@@ -51,15 +51,40 @@ namespace survey_be.Controllers
           {
               return NotFound();
           }
-            var response = await _context.Responses.FindAsync(id);
-            var responseDTO = _mapper.Map<List<ResponseDTO>>(response);
+            var response = await _context.Responses.Where(_=>_.ResponseId == id).ToListAsync();
 
             if (response == null)
             {
                 return NotFound();
             }
+            var responseDTO = _mapper.Map<List<ResponseDTO>>(response);
+
 
             return Ok(responseDTO);
+        }
+
+        // GET: api/Responses/5
+        [HttpGet("/surveyParticipate/{id}")]
+        public async Task<ActionResult<ParticipatesDTO>> GetParticipates(int id)
+        {
+            if (_context.Responses == null)
+            {
+                return NotFound();
+            }
+            var response = await _context.Responses
+                .Include(_=>_.Survey)
+                .Include(_=>_.UserInfo)
+                .Where(_=>_.SurveyId == id).ToListAsync();
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+            var responseDTO = _mapper.Map<List<ParticipatesDTO>>(response);
+            var dtoList = _mapper.Map<List<Models.Response>, List<ParticipatesDTO>>(response);
+
+
+            return Ok(dtoList);
         }
 
         // PUT: api/Responses/5
