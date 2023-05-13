@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -40,8 +41,13 @@ namespace survey_be.Controllers
         {
             if (_context.Surveys == null)
           {
-              return NotFound();
-          }
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
+            }
             var route = Request.Path.Value;
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
@@ -64,13 +70,18 @@ namespace survey_be.Controllers
         }
 
         // GET: api/Surveys/ for roles
-        [HttpGet("/role/{id}")]
-        public async Task<ActionResult<SurveyDTO>> GetSurveyByRole(int id)
+        [HttpGet("role/{id}")]
+        public async Task<ActionResult<SurveyDTO>> GetSurveyByRole(int id, [FromQuery] PaginationFilter filter)
         {
           if (_context.Surveys == null)
           {
-              return NotFound();
-          }
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
+            }
             var survey = await _context.Surveys
                 .Include(_=>_.Questions)
                 .ThenInclude(_=>_.Answers)
@@ -79,10 +90,28 @@ namespace survey_be.Controllers
 
             if (survey == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Create data fail",
+                    data = null
+                });
             }
 
-            return Ok(surveyDTO);
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var totalRecords = surveyDTO.Count;
+
+            var pagedData = surveyDTO
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<SurveyDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+
+            return Ok(pagedResponse);
         }
 
         // GET: api/Surveys/ by surveyId
@@ -91,7 +120,12 @@ namespace survey_be.Controllers
         {
             if (_context.Surveys == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
             }
             var survey = await _context.Surveys
                 .Include(_ => _.Questions)
@@ -101,7 +135,12 @@ namespace survey_be.Controllers
 
             if (survey == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
             }
 
             return Ok(surveyDTO);
@@ -124,7 +163,12 @@ namespace survey_be.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Update data fail "+ ex.Message,
+                    data = null
+                });
             }
 
         }
@@ -138,7 +182,12 @@ namespace survey_be.Controllers
             {
                 if (_context.Surveys == null)
                 {
-                    return Problem("Entity set 'SurveyDbContext.Surveys'  is null.");
+                    return NotFound(new Models.HttpResponseError
+                    {
+                        status = HttpStatusCode.NotFound,
+                        title = "Create data fail",
+                        data = null
+                    });
                 }
                 var newSurvey = _mapper.Map<Survey>(payloadSurvey);
                 _context.Surveys.Add(newSurvey);
@@ -148,7 +197,12 @@ namespace survey_be.Controllers
 
             } catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Create data fail" + ex.Message,
+                    data = null
+                });
             }
      
         }
@@ -159,7 +213,12 @@ namespace survey_be.Controllers
         {
             if (_context.Surveys == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
             }
 
             var surveyToDelete = await _context
@@ -170,7 +229,12 @@ namespace survey_be.Controllers
 
             if (surveyToDelete == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
             }
             _context.Surveys.Remove(surveyToDelete);
             await _context.SaveChangesAsync();

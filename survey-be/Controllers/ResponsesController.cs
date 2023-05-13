@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Azure;
@@ -85,11 +86,16 @@ namespace survey_be.Controllers
 
         // GET: api/Responses/5
         [HttpGet("/surveyParticipate/{id}")]
-        public async Task<ActionResult<ParticipatesDTO>> GetParticipates(int id)
+        public async Task<ActionResult<ParticipatesDTO>> GetParticipates(int id, [FromQuery] PaginationFilter filter)
         {
             if (_context.Responses == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
             }
             var response = await _context.Responses
                 .Include(_=>_.Survey)
@@ -98,13 +104,27 @@ namespace survey_be.Controllers
 
             if (response == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
             }
-            var responseDTO = _mapper.Map<List<ParticipatesDTO>>(response);
             var dtoList = _mapper.Map<List<Models.Response>, List<ParticipatesDTO>>(response);
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
+            var totalRecords = dtoList.Count;
 
-            return Ok(dtoList);
+            var pagedData = dtoList
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<ParticipatesDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+            return Ok(pagedResponse);
         }
 
         // PUT: api/Responses/5
@@ -123,7 +143,12 @@ namespace survey_be.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Update data fail " + ex.Message,
+                    data = null
+                });
             }
         }
 
@@ -134,7 +159,12 @@ namespace survey_be.Controllers
         {
           if (_context.Responses == null)
           {
-              return Problem("Entity set 'SurveyDbContext.Responses'  is null.");
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Create data fail",
+                    data = null
+                });
           }
           var newResponse = _mapper.Map<Models.Response>(payloadResponse);
             _context.Responses.Add(newResponse);
@@ -149,7 +179,12 @@ namespace survey_be.Controllers
         {
             if (_context.Responses == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
             }
             var response = await _context.Responses.FindAsync(id);
             if (response == null)
