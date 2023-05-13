@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Azure;
+using CodeFirstDemo.Filter;
+using CodeFirstDemo.Helpers;
+using CodeFirstDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,28 +22,45 @@ namespace survey_be.Controllers
     {
         private readonly SurveyDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUriService _uriService;
 
 
-        public ResponsesController(SurveyDbContext context, IMapper mapper)
+
+        public ResponsesController(SurveyDbContext context, IMapper mapper, IUriService uriService)
         {
             _context = context;
             _mapper = mapper;
+            _uriService = uriService;
+
 
         }
 
         // GET: api/Responses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseDTO>>> GetResponses()
+        public async Task<ActionResult<IEnumerable<ResponseDTO>>> GetResponses([FromQuery] PaginationFilter filter)
         {
-          if (_context.Responses == null)
-          {
-              return NotFound();
-          }
-          var responses = await _context.Responses
+            if (_context.Responses == null)
+            {
+                return NotFound();
+            }
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var responses = await _context.Responses
                 .Include(_ => _.CompetitionResults)
                 .ToListAsync();
-          var responseDTOs = _mapper.Map<List<ResponseDTO>>(responses);
-            return Ok(responseDTOs);
+
+            var responseDTOs = _mapper.Map<List<ResponseDTO>>(responses);
+            var totalRecords = responseDTOs.Count;
+
+            var pagedData = responseDTOs
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<ResponseDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+            return Ok(pagedResponse);
         }
 
         // GET: api/Responses/5
