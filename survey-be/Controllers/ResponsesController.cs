@@ -202,5 +202,42 @@ namespace survey_be.Controllers
         {
             return (_context.Responses?.Any(e => e.ResponseId == id)).GetValueOrDefault();
         }
+
+        [HttpPost("SendResponses")]
+        public async Task<ActionResult> SendResponse(SendResponseDTO responseDTO)
+        {
+            var survey = await _context.Surveys
+                .Include(s => s.Questions)
+                .ThenInclude(q => q.Answers)
+                .FirstOrDefaultAsync(s => s.SurveyId == responseDTO.SurveyId);
+
+            var user = await _context.UserInfos.FindAsync(responseDTO.UserId);
+            if (survey == null || user == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Create response fail",
+                    data = null
+                });
+            }
+
+            int totalMark = responseDTO.Questions
+                .SelectMany(q => q.SelectedAnswerIds)
+                .Join(survey.Questions.SelectMany(q => q.Answers), selectedId => selectedId, answer => answer.AnswerId, (_, answer) => answer)
+                .Count(answer => answer.CorrectAnswer);
+
+            var response = new Models.Response
+            {
+                Survey = survey,
+                UserInfo = user,
+                TotalMark = totalMark
+            };
+
+            _context.Responses.Add(response);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetResponse", new { id = responseDTO.ResponseId }, responseDTO);
+        }
     }
 }
