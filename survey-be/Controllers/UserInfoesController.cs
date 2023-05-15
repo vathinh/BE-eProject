@@ -41,12 +41,12 @@ namespace survey_be.Controllers
             string passwordHash
                 = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-            userinfo.UserName = userinfo.UserName;
+            userinfo.UserName = request.UserName;
             userinfo.UserPassword = passwordHash;
-            userinfo.RollNo = userinfo.RollNo;
-            userinfo.UserClass = userinfo.UserClass;
-            userinfo.Specification = userinfo.Specification;
-            userinfo.Section = userinfo.Section;
+            //userinfo.RollNo = userinfo.RollNo;
+            //userinfo.UserClass = userinfo.UserClass;
+            //userinfo.Specification = userinfo.Specification;
+            //userinfo.Section = userinfo.Section;
 
             return Ok(userinfo);
         }
@@ -55,7 +55,7 @@ namespace survey_be.Controllers
         [HttpPost("login")]
         public ActionResult<UserInfo> Login(UserDTO request)
         {
-            if (userinfo.UserName != userinfo.UserName)
+            if (userinfo.UserName != request.UserName)
             {
                 return BadRequest("User not found.");
             }
@@ -70,30 +70,28 @@ namespace survey_be.Controllers
             return Ok(token);
         }
 
-        // CREATE TOKEN
-        private string CreateToken(UserInfo userinfo)
-        {
+		// CREATE TOKEN
+		private string CreateToken(UserInfo userInfo)
+		{
             List<Claim> claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, userinfo.UserName),
-                new Claim(ClaimTypes.Role, "Admin"),
-                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.Name, userinfo.UserName)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value!));
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+				_configuration.GetSection("AppSettings:Token").Value!));
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.Now.AddDays(1),
-                    signingCredentials: creds
-                );
+			var token = new JwtSecurityToken(
+					claims: claims,
+					expires: DateTime.Now.AddDays(1),
+					signingCredentials: creds
+				);
 
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return jwt;
-        }
+			return jwt;
+		}
 
 
         // GET: api/UserInfoes
