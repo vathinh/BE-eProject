@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using AutoMapper;
+using Azure;
+using CodeFirstDemo.Filter;
+using CodeFirstDemo.Helpers;
+using CodeFirstDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,48 +24,129 @@ namespace survey_be.Controllers
     {
         private readonly SurveyDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUriService _uriService;
 
-        public SurveysController(SurveyDbContext context, IMapper mapper)
+
+        public SurveysController(SurveyDbContext context, IMapper mapper, IUriService uriService)
         {
             _context = context;
             _mapper = mapper;
+            _uriService = uriService;
+
         }
 
         // GET: api/Surveys
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Survey>>> GetSurveys()
+        public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetSurveys([FromQuery] PaginationFilter filter)
         {
-          if (_context.Surveys == null)
+            if (_context.Surveys == null)
           {
-              return NotFound();
-          }
-          var surveys = await _context.Surveys
-                .Include(_=>_.Questions)
-                .ThenInclude(_=>_.Answers)
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
+            }
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var surveys = await _context.Surveys
+                .Include(_ => _.Questions)
+                .ThenInclude(_ => _.Answers)
                 .ToListAsync();
-            return Ok(surveys);
+
+            var surveyDTOs = _mapper.Map<List<SurveyDTO>>(surveys);
+            var totalRecords = surveyDTOs.Count;
+
+            var pagedData = surveyDTOs
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<SurveyDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+            return Ok(pagedResponse);
         }
 
-        // GET: api/Surveys/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Survey>> GetSurvey(int id)
+        // GET: api/Surveys/ for roles
+        [HttpGet("role/{id}")]
+        public async Task<ActionResult<SurveyDTO>> GetSurveyByRole(int id, [FromQuery] PaginationFilter filter)
         {
           if (_context.Surveys == null)
           {
-              return NotFound();
-          }
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
+            }
             var survey = await _context.Surveys
                 .Include(_=>_.Questions)
                 .ThenInclude(_=>_.Answers)
-                .Where(_=>_.SurveyId == id).ToListAsync();
+                .Where(_=>_.UserRoleId == id).ToListAsync();
+            var surveyDTO = _mapper.Map<List<SurveyDTO>>(survey);
 
             if (survey == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Create data fail",
+                    data = null
+                });
             }
 
-            return Ok(survey);
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var totalRecords = surveyDTO.Count;
+
+            var pagedData = surveyDTO
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<SurveyDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+
+            return Ok(pagedResponse);
         }
+
+        // GET: api/Surveys/ by surveyId
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SurveyDTO>> GetSurveyById(int id)
+        {
+            if (_context.Surveys == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
+            }
+            var survey = await _context.Surveys
+                .Include(_ => _.Questions)
+                .ThenInclude(_ => _.Answers)
+                .Where(_ => _.SurveyId == id).ToListAsync();
+            var surveyDTO = _mapper.Map<List<SurveyDTO>>(survey);
+
+            if (survey == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Get data fail",
+                    data = null
+                });
+            }
+
+            return Ok(surveyDTO);
+        }
+
+
 
         // PUT: api/Surveys/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -76,7 +163,12 @@ namespace survey_be.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Update data fail "+ ex.Message,
+                    data = null
+                });
             }
 
         }
@@ -86,15 +178,33 @@ namespace survey_be.Controllers
         [HttpPost]
         public async Task<ActionResult<SurveyDTO>> PostSurvey(SurveyDTO payloadSurvey)
         {
-          if (_context.Surveys == null)
-          {
-              return Problem("Entity set 'SurveyDbContext.Surveys'  is null.");
-          }
-            var newSurvey = _mapper.Map<Survey>(payloadSurvey);
-            _context.Surveys.Add(newSurvey);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (_context.Surveys == null)
+                {
+                    return NotFound(new Models.HttpResponseError
+                    {
+                        status = HttpStatusCode.NotFound,
+                        title = "Create data fail",
+                        data = null
+                    });
+                }
+                var newSurvey = _mapper.Map<Survey>(payloadSurvey);
+                _context.Surveys.Add(newSurvey);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSurvey", new { id = payloadSurvey.SurveyId }, payloadSurvey);
+                return CreatedAtAction("GetSurveyById", new { id = payloadSurvey.SurveyId }, payloadSurvey);
+
+            } catch (Exception ex)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Create data fail" + ex.Message,
+                    data = null
+                });
+            }
+     
         }
 
         // DELETE: api/Surveys/5
@@ -103,7 +213,12 @@ namespace survey_be.Controllers
         {
             if (_context.Surveys == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
             }
 
             var surveyToDelete = await _context
@@ -114,7 +229,12 @@ namespace survey_be.Controllers
 
             if (surveyToDelete == null)
             {
-                return NotFound();
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
             }
             _context.Surveys.Remove(surveyToDelete);
             await _context.SaveChangesAsync();

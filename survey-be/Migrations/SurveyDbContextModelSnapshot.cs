@@ -108,8 +108,8 @@ namespace survey_be.Migrations
                             Location = "District 1",
                             Name = "Competition 1",
                             SurveyId = 1,
-                            TimeEndCompetition = new DateTime(2023, 5, 14, 6, 48, 27, 55, DateTimeKind.Utc).AddTicks(1495),
-                            TimeStartCompetition = new DateTime(2023, 5, 7, 6, 48, 27, 55, DateTimeKind.Utc).AddTicks(1494)
+                            TimeEndCompetition = new DateTime(2023, 5, 18, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4051),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4049)
                         },
                         new
                         {
@@ -117,8 +117,8 @@ namespace survey_be.Migrations
                             Location = "District 2",
                             Name = "Competition 2",
                             SurveyId = 2,
-                            TimeEndCompetition = new DateTime(2023, 5, 21, 6, 48, 27, 55, DateTimeKind.Utc).AddTicks(1505),
-                            TimeStartCompetition = new DateTime(2023, 5, 7, 6, 48, 27, 55, DateTimeKind.Utc).AddTicks(1505)
+                            TimeEndCompetition = new DateTime(2023, 5, 25, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4059),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4058)
                         },
                         new
                         {
@@ -126,8 +126,8 @@ namespace survey_be.Migrations
                             Location = "District 3",
                             Name = "Competition 3",
                             SurveyId = 3,
-                            TimeEndCompetition = new DateTime(2023, 5, 28, 6, 48, 27, 55, DateTimeKind.Utc).AddTicks(1507),
-                            TimeStartCompetition = new DateTime(2023, 5, 7, 6, 48, 27, 55, DateTimeKind.Utc).AddTicks(1506)
+                            TimeEndCompetition = new DateTime(2023, 6, 1, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4061),
+                            TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4060)
                         });
                 });
 
@@ -479,7 +479,12 @@ namespace survey_be.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("integer");
+
                     b.HasKey("SurveyId");
+
+                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Surveys");
 
@@ -489,21 +494,24 @@ namespace survey_be.Migrations
                             SurveyId = 1,
                             Description = "Description for Survey 1",
                             Img = "img1.jpg",
-                            Title = "Survey 1"
+                            Title = "Survey 1",
+                            UserRoleId = 2
                         },
                         new
                         {
                             SurveyId = 2,
                             Description = "Description for Survey 2",
                             Img = "img2.jpg",
-                            Title = "Survey 2"
+                            Title = "Survey 2",
+                            UserRoleId = 2
                         },
                         new
                         {
                             SurveyId = 3,
                             Description = "Description for Survey 3",
                             Img = "img3.jpg",
-                            Title = "Survey 3"
+                            Title = "Survey 3",
+                            UserRoleId = 3
                         });
                 });
 
@@ -738,6 +746,17 @@ namespace survey_be.Migrations
                     b.Navigation("UserInfo");
                 });
 
+            modelBuilder.Entity("survey_be.Models.Survey", b =>
+                {
+                    b.HasOne("survey_be.Models.UserRole", "UserRole")
+                        .WithMany("Surveys")
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserRole");
+                });
+
             modelBuilder.Entity("survey_be.Models.UserInfo", b =>
                 {
                     b.HasOne("survey_be.Models.UserRole", "UserRole")
@@ -787,6 +806,8 @@ namespace survey_be.Migrations
 
             modelBuilder.Entity("survey_be.Models.UserRole", b =>
                 {
+                    b.Navigation("Surveys");
+
                     b.Navigation("UserInfos");
                 });
 #pragma warning restore 612, 618

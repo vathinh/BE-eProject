@@ -1,7 +1,10 @@
-﻿namespace survey_be.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace survey_be.Models
 {
     public class CompetitionContent
     {
+        [Key]
         public int CompetitionContentId { get; set; }
         public string Name { get; set; }
         public DateTime TimeStartCompetition { get; set; }

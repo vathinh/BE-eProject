@@ -33,18 +33,6 @@ services:
       - postgres_survey_network
     restart: unless-stopped
 
-  liquibase_survey:
-    container_name: liquibase_survey
-    image: liquibase/liquibase:4.5.0
-    command: ["--changeLogFile=/liquibase/changelog.xml", "--url=jdbc:postgresql://postgres_survey/mydb", "--username=myuser", "--password=mypassword", "update"]
-    volumes:
-      - .:/liquibase
-      - ~/.m2:/root/.m2
-    networks:
-      - postgres_survey_network
-    depends_on:
-      - postgres_survey
-
 networks:
   postgres_survey_network:
     driver: bridge

@@ -3,8 +3,8 @@
     public class UserInfo
     {
         public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string UserPassword { get; set; }
+        public string? UserName { get; set; }
+        public string? UserPassword { get; set; }
         public string RollNo { get; set; }
         public string UserClass { get; set; }
         public string Specification { get; set; }
