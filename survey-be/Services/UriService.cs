@@ -1,6 +1,7 @@
 ﻿using CodeFirstDemo.Filter;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using survey_be.Dtos;
 using System.Configuration;
 
 namespace CodeFirstDemo.Services
@@ -17,6 +18,17 @@ namespace CodeFirstDemo.Services
             var _enpointUri = new Uri(string.Concat(_baseUri, route));
             var modifiedUri = QueryHelpers.AddQueryString(_enpointUri.ToString(), "pageNumber", filter.PageNumber.ToString());
             modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "pageSize", filter.PageSize.ToString());
+
+            if (filter.Search != null)
+            {
+                modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "search", filter.Search.ToString());
+            }
+
+            if (filter.OrderBy != null)
+            {
+                modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "orderBy", filter.OrderBy.ToString());
+            }
+
             return new Uri(modifiedUri);
         }
     }

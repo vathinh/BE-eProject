@@ -895,3 +895,4 @@ D:\eProj\BE-eProject\survey-be\obj\Debug\net7.0\survey-be.pdb
 D:\eProj\BE-eProject\survey-be\obj\Debug\net7.0\survey-be.genruntimeconfig.cache
 D:\eProj\BE-eProject\survey-be\obj\Debug\net7.0\ref\survey-be.dll
 >>>>>>> dev
+C:\Users\Admin\Desktop\eproject2023\BE-eProject\survey-be\bin\Debug\net7.0\BCrypt.Net-Next.dll

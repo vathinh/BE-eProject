@@ -11547,24 +11547,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\thinh\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\eproject2023\\BE-eProject\\survey-be\\survey-be.csproj",
       "projectName": "survey-be",
-      "projectPath": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
-      "packagesPath": "C:\\Users\\thinh\\.nuget\\packages\\",
-      "outputPath": "D:\\eProj\\BE-eProject\\survey-be\\obj\\",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\eproject2023\\BE-eProject\\survey-be\\survey-be.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\Desktop\\eproject2023\\BE-eProject\\survey-be\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\thinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11666,7 +11661,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
