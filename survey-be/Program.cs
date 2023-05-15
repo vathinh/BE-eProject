@@ -26,14 +26,16 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // CORS
-builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+builder.Services.AddCors(options =>
 {
-    builder.AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader()
-           .AllowCredentials()
-           .Build();
-}));
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
+});
 var app = builder.Build();
 
 // Seed the database
