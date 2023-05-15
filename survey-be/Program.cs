@@ -26,7 +26,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // CORS
-builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+builder.Services.AddCors(options =>
 {
     builder.WithOrigins("http://localhost:3000") // specify allowed origins
            .AllowAnyMethod()
@@ -50,7 +50,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 

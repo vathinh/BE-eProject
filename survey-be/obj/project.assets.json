@@ -11547,27 +11547,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/thinh/.nuget/packages/": {}
+    "C:\\Users\\thinh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/thinh/Downloads/BE-eProject/survey-be/survey-be.csproj",
+      "projectUniqueName": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
       "projectName": "survey-be",
-      "projectPath": "/Users/thinh/Downloads/BE-eProject/survey-be/survey-be.csproj",
-      "packagesPath": "/Users/thinh/.nuget/packages/",
-      "outputPath": "/Users/thinh/Downloads/BE-eProject/survey-be/obj/",
+      "projectPath": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
+      "packagesPath": "C:\\Users\\thinh\\.nuget\\packages\\",
+      "outputPath": "D:\\eProj\\BE-eProject\\survey-be\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/thinh/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\thinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
-        "http://nuget-dev.apollo.vn/nuget": {},
-        "http://nuget.sogo.vn/nuget": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -11662,22 +11666,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.200/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1803",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://nuget-dev.apollo.vn/nuget'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
-    },
-    {
-      "code": "NU1803",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://nuget.sogo.vn/nuget'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
-    }
-  ]
+  }
 }
