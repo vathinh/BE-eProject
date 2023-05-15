@@ -1,3 +1,4 @@
+using CodeFirstDemo.Services;
 using Microsoft.EntityFrameworkCore;
 using survey_be.Data;
 
@@ -5,7 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<SurveyDbContext>(options => options.UseNpgsql("MyDatabase"));
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IUriService>(o =>
+{
+    var accessor = o.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+    return new UriService(uri);
+});
+builder.Services.AddControllers();
 //AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -16,7 +25,16 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+// CORS
+builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+{
+    builder.WithOrigins() // specify allowed origins
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .SetIsOriginAllowed(origin => true) // allow any origin
+           .AllowCredentials()
+           .Build();
+}));
 var app = builder.Build();
 
 // Seed the database
