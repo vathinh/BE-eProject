@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="../buildMultiTargeting/survey-be.props" />
+  <Import Project="..\buildMultiTargeting\survey-be.props" />
 </Project>

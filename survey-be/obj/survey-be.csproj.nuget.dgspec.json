@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj": {}
+    "D:\\BE-eProject\\survey-be\\survey-be.csproj": {}
   },
   "projects": {
-    "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj": {
+    "D:\\BE-eProject\\survey-be\\survey-be.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
+        "projectUniqueName": "D:\\BE-eProject\\survey-be\\survey-be.csproj",
         "projectName": "survey-be",
-        "projectPath": "D:\\eProj\\BE-eProject\\survey-be\\survey-be.csproj",
+        "projectPath": "D:\\BE-eProject\\survey-be\\survey-be.csproj",
         "packagesPath": "C:\\Users\\thinh\\.nuget\\packages\\",
-        "outputPath": "D:\\eProj\\BE-eProject\\survey-be\\obj\\",
+        "outputPath": "D:\\BE-eProject\\survey-be\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -55,6 +55,10 @@
             "Liquibase.Cli": {
               "target": "Package",
               "version": "[4.21.1, )"
+            },
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
