@@ -28,10 +28,9 @@ builder.Services.AddSwaggerGen();
 // CORS
 builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
 {
-    builder.WithOrigins() // specify allowed origins
+    builder.WithOrigins("http://localhost:3000") // specify allowed origins
            .AllowAnyMethod()
            .AllowAnyHeader()
-           .SetIsOriginAllowed(origin => true) // allow any origin
            .AllowCredentials()
            .Build();
 }));
