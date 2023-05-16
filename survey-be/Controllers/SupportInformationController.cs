@@ -5,6 +5,9 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Azure.Core;
+using CodeFirstDemo.Filter;
+using CodeFirstDemo.Helpers;
+using CodeFirstDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,16 +24,19 @@ namespace survey_be.Controllers
     {
         private readonly SurveyDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUriService _uriService;
 
-        public SupportInformationController(SurveyDbContext context, IMapper mapper)
+        public SupportInformationController(SurveyDbContext context, IMapper mapper, IUriService uriService)
         {
             _context = context;
             _mapper = mapper;
+            _uriService = uriService;
         }
 
-        // GET: api/SupportInformation
+        // GET: api/SupportInformation?PageNumber=1&PageSize=5&orderBy=user_id_des
+        // GET: api/SupportInformation?PageNumber=1&PageSize=5&search=FAQ => search theo noi dung support information
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SupportInformation>>> GetSupportInformations()
+        public async Task<ActionResult<IEnumerable<SupportInformationDTO>>> GetSupportInformations([FromQuery] PaginationFilter filter)
         {
             if (_context.SupportInformations == null)
             {
@@ -41,13 +47,40 @@ namespace survey_be.Controllers
                     data = null
                 });
             }
+
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.OrderBy, filter.Search);
             var supportInformations = await _context.SupportInformations.ToListAsync();
-            return Ok(new Models.HttpResponseSuccess
+
+            var supportInformationDTOs = _mapper.Map<List<SupportInformationDTO>>(supportInformations);
+            var totalRecords = supportInformationDTOs.Count;
+
+            var pagedData = supportInformationDTOs
+               .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+               .Take(validFilter.PageSize)
+               .OrderBy(_ => _.UserId)
+               .ToList();
+
+            if (validFilter.Search != null)
             {
-                status = HttpStatusCode.OK,
-                title = "Data get successfully",
-                data = supportInformations
-            });
+                pagedData = pagedData.Where(_ => _.SupportInformationContent.Contains(validFilter.Search)).ToList();
+            }
+
+            if (validFilter.OrderBy != null)
+            {
+                switch (validFilter.OrderBy)
+                {
+                    case "user_id_desc": pagedData = pagedData.OrderByDescending(_ => _.UserId).ToList(); break;
+                    case "support_information_id_asc": pagedData = pagedData.OrderBy(_ => _.SupportInformationId).ToList(); break;
+                    case "support_information_id_desc": pagedData = pagedData.OrderByDescending(_ => _.SupportInformationId).ToList(); break;
+                    case "support_information_content_asc": pagedData = pagedData.OrderBy(_ => _.SupportInformationContent).ToList(); break;
+                    case "support_information_content_desc": pagedData = pagedData.OrderByDescending(_ => _.SupportInformationContent).ToList(); break;
+                }
+            }
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<SupportInformationDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+            return Ok(pagedResponse);
         }
 
         // POST: api/SupportInformation
@@ -104,20 +137,21 @@ namespace survey_be.Controllers
                 if (supportInformation != null)
                 {
 
-                    if(userId?.UserId == supportInformation.UserId)
+                    if (userId?.UserId == supportInformation.UserId)
                     {
-                    supportInformation.SupportInformationContent = payloadSupportInformation.SupportInformationContent;
-                    supportInformation.UserId = payloadSupportInformation.UserId;
+                        supportInformation.SupportInformationContent = payloadSupportInformation.SupportInformationContent;
+                        supportInformation.UserId = payloadSupportInformation.UserId;
 
 
-                    await _context.SaveChangesAsync();
-                    return Ok(new Models.HttpResponseSuccess
-                    {
-                        status = HttpStatusCode.OK,
-                        title = "Update data successfully",
-                        data = null
-                    });
-                    } else
+                        await _context.SaveChangesAsync();
+                        return Ok(new Models.HttpResponseSuccess
+                        {
+                            status = HttpStatusCode.OK,
+                            title = "Update data successfully",
+                            data = null
+                        });
+                    }
+                    else
                     {
                         return NotFound(new Models.HttpResponseError
                         {

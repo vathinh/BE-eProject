@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Azure.Core;
+using CodeFirstDemo.Filter;
+using CodeFirstDemo.Helpers;
+using CodeFirstDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,16 +25,19 @@ namespace survey_be.Controllers
     {
         private readonly SurveyDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUriService _uriService;
 
-        public FaqController(SurveyDbContext context, IMapper mapper)
+        public FaqController(SurveyDbContext context, IMapper mapper, IUriService uriService)
         {
             _context = context;
             _mapper = mapper;
+            _uriService = uriService;
+
         }
 
-        // GET: api/Faq
+        // GET: api/Faq?PageNumber=1&PageSize=5&OrderBy=answer_desc&Search=order
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Faq>>> GetFaqs()
+        public async Task<ActionResult<IEnumerable<FaqDTO>>> GetFaqs([FromQuery] PaginationFilter filter)
         {
             if (_context.Faqs == null)
             {
@@ -41,13 +48,38 @@ namespace survey_be.Controllers
                     data = null
                 });
             }
+
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.OrderBy, filter.Search);
             var faqs = await _context.Faqs.ToListAsync();
-            return Ok(new Models.HttpResponseSuccess
+
+            var faqDTOs = _mapper.Map<List<FaqDTO>>(faqs);
+            var totalRecords = faqDTOs.Count;
+
+            var pagedData = faqDTOs
+               .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+               .Take(validFilter.PageSize)
+               .OrderBy(_ => _.FaqQuestion)
+               .ToList();
+
+            if (validFilter.Search != null)
             {
-                status = HttpStatusCode.OK,
-                title = "Data get successfully",
-                data = faqs
-            });
+                pagedData = pagedData.Where(_ => _.FaqQuestion.Contains(validFilter.Search)).ToList();
+            }
+
+            if (validFilter.OrderBy != null)
+            {
+                switch (validFilter.OrderBy)
+                {
+                    case "question_desc": pagedData = pagedData.OrderByDescending(_ => _.FaqQuestion).ToList(); break;
+                    case "answer_asc": pagedData = pagedData.OrderBy(_ => _.FaqContent).ToList(); break;
+                    case "answer_desc": pagedData = pagedData.OrderByDescending(_ => _.FaqContent).ToList(); break;
+                }
+            }
+
+            var pagedResponse = PaginationHelper.CreatePagedReponse<FaqDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+            return Ok(pagedResponse);
         }
 
         // POST: api/Faq
@@ -64,7 +96,7 @@ namespace survey_be.Controllers
                 });
             }
 
-            var newFaq= _mapper.Map<Faq>(payloadFaq);
+            var newFaq = _mapper.Map<Faq>(payloadFaq);
             _context.Faqs.Add(newFaq);
             await _context.SaveChangesAsync();
 
@@ -85,9 +117,9 @@ namespace survey_be.Controllers
             {
                 var faq = await _context.Faqs.FindAsync(id);
 
-                if(faq != null)
+                if (faq != null)
                 {
-                    
+
                     faq.FaqQuestion = payloadFaq.FaqQuestion;
                     faq.FaqContent = payloadFaq.FaqContent;
 
