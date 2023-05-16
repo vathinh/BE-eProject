@@ -53,32 +53,32 @@ namespace survey_be.Controllers
 			userinfo.UserClass = request.UserClass; // ver 01
 			userinfo.Specification = request.Specification; // ver 01
 			userinfo.Section = request.Section; // ver 01
-			userinfo.AdmissionDate = request.AdmissionDate; // ver 01
+            userinfo.AdmissionDate = request.AdmissionDate; // ver 01
 
-			return Ok(userinfo);
+            return Ok(userinfo);
 		}
 
-		// POST: api/UserInfoes
-		[HttpPost("login")]
-		public ActionResult<UserInfo> Login(UserDTO request)
-		{
-			if (userinfo.UserName != request.UserName)
-			{
-				return BadRequest("User not found.");
-			}
+        // POST: api/UserInfoes
+        [HttpPost("login")]
+        public ActionResult<UserInfo> Login(LoginDTO request) // thay class UserDTO.cs = LoginDTO.cs
+        {
+            if (userinfo.UserName != request.UserName)
+            {
+                return BadRequest("User not found.");
+            }
 
-			if (!BCrypt.Net.BCrypt.Verify(request.Password, userinfo.UserPassword))
-			{
-				return BadRequest("Wrong password.");
-			}
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, userinfo.UserPassword))
+            {
+                return BadRequest("Wrong password.");
+            }
 
-			string token = CreateToken(userinfo);
+            string token = CreateToken(userinfo);
 
-			return Ok(token);
-		}
+            return Ok(token);
+        }
 
-		// CREATE TOKEN
-		private string CreateToken(UserInfo userInfo)
+        // CREATE TOKEN
+        private string CreateToken(UserInfo userInfo)
 		{
 			List<Claim> claims = new List<Claim> {
 				new Claim(ClaimTypes.Name, userinfo.UserName)
@@ -127,7 +127,7 @@ namespace survey_be.Controllers
 		//	return Ok(userinfo);
 		//}
 
-		// GET: api/UserInfoes/5
+		// GET: api/UserInfoes/
 		[HttpGet("{id}")]
 		public async Task<ActionResult<UserInfo>> GetUserInfo(int id)
 		{
@@ -145,7 +145,7 @@ namespace survey_be.Controllers
 			return userInfo;
 		}
 
-		// PUT: api/UserInfoes/5
+		// PUT: api/UserInfoes/
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutUserInfo(int id, UserInfo userInfo)
