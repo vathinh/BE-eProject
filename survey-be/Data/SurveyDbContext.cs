@@ -156,7 +156,6 @@ namespace survey_be.Data
             modelBuilder.Entity<Question>(entity =>
             {
                 entity.HasKey(e => e.QuestionId);
-                entity.Property(e => e.Title).IsRequired();
                 entity.Property(e => e.Type).IsRequired();
                 entity.Property(e => e.QuestionContent).IsRequired();
 
@@ -198,9 +197,9 @@ namespace survey_be.Data
             );
 
             modelBuilder.Entity<Question>().HasData(
-                new Question { QuestionId = 1, Title = "Question 1", Type = "Type 1", QuestionContent = "Question Content 1", SurveyId = 1 },
-                new Question { QuestionId = 2, Title = "Question 2", Type = "Type 2", QuestionContent = "Question Content 2", SurveyId = 1 },
-                new Question { QuestionId = 3, Title = "Question 3", Type = "Type 3", QuestionContent = "Question Content 3", SurveyId = 2 }
+                new Question { QuestionId = 1, Type = "Type 1", QuestionContent = "Question Content 1", SurveyId = 1 },
+                new Question { QuestionId = 2, Type = "Type 2", QuestionContent = "Question Content 2", SurveyId = 1 },
+                new Question { QuestionId = 3, Type = "Type 3", QuestionContent = "Question Content 3", SurveyId = 2 }
             );
 
             modelBuilder.Entity<Answer>().HasData(
