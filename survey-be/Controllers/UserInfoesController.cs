@@ -60,7 +60,7 @@ namespace survey_be.Controllers
 
 		// POST: api/UserInfoes
 		[HttpPost("login")]
-		public ActionResult<UserInfo> Login(UserDTO request)
+		public ActionResult<UserInfo> Login(LoginDTO request) // thay class UserDTO.cs = LoginDTO.cs
 		{
 			if (userinfo.UserName != request.UserName)
 			{
@@ -176,7 +176,7 @@ namespace survey_be.Controllers
 			return NoContent();
 		}
 
-		// PUT: api/UserInfoes/5
+		// PUT: api/UserInfoes/
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		// Ver 01
 		[HttpPut]
