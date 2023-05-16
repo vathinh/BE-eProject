@@ -10,7 +10,7 @@
 		public string UserClass { get; set; } // ver 01
 		public string Specification { get; set; } // ver 01
 		public string Section { get; set; } // ver 01
-		public string AdmissionDate { get; set; } // ver 01
+		public DateTime AdmissionDate { get; set; } // ver 01
 		public bool IsActive { get; set; } // ver 01
 
 	}

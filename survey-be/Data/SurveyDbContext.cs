@@ -53,6 +53,7 @@ namespace survey_be.Data
                 entity.Property(e => e.UserClass).IsRequired();
                 entity.Property(e => e.Section).IsRequired();
                 entity.Property(e => e.IsActive).IsRequired();
+                entity.Property(e => e.AdmissionDate).IsRequired();
 
                 entity.HasOne(e => e.UserRole)
                       .WithMany(e => e.UserInfos)
@@ -216,11 +217,11 @@ namespace survey_be.Data
              );
 
             modelBuilder.Entity<UserInfo>().HasData(
-                new UserInfo { UserId = 1, UserName = "admin", UserPassword = "adminpass", RollNo = "", UserClass = "", Specification = "", Section = "", IsActive = true, UserRoleId = 1 },
-                new UserInfo { UserId = 2, UserName = "john", UserPassword = "johnpass", RollNo = "001", UserClass = "12A", Specification = "science", Section = "A", IsActive = true, UserRoleId = 2 },
-                new UserInfo { UserId = 3, UserName = "jane", UserPassword = "janepass", RollNo = "101", UserClass = "11B", Specification = "arts", Section = "B", IsActive = true, UserRoleId = 2 },
-                new UserInfo { UserId = 4, UserName = "peter", UserPassword = "peterpass", RollNo = "", UserClass = "", Specification = "librarian", Section = "", IsActive = true, UserRoleId = 3 },
-                new UserInfo { UserId = 5, UserName = "susan", UserPassword = "susanpass", RollNo = "", UserClass = "", Specification = "teacher", Section = "", IsActive = true, UserRoleId = 3 }
+                new UserInfo { UserId = 1, UserName = "admin", UserPassword = "adminpass", FullName = "Admin Fullname", RollNo = "", UserClass = "", Specification = "", Section = "", IsActive = true, UserRoleId = 1, AdmissionDate = DateTime.UtcNow },
+                new UserInfo { UserId = 2, UserName = "john", UserPassword = "johnpass", FullName = "john Fullname", RollNo = "001", UserClass = "12A", Specification = "science", Section = "A", IsActive = true, UserRoleId = 2, AdmissionDate = DateTime.UtcNow },
+                new UserInfo { UserId = 3, UserName = "jane", UserPassword = "janepass", FullName = "jane Fullname", RollNo = "101", UserClass = "11B", Specification = "arts", Section = "B", IsActive = true, UserRoleId = 2, AdmissionDate = DateTime.UtcNow },
+                new UserInfo { UserId = 4, UserName = "peter", UserPassword = "peterpass", FullName = "peter Fullname", RollNo = "", UserClass = "", Specification = "librarian", Section = "", IsActive = true, UserRoleId = 3, AdmissionDate = DateTime.UtcNow },
+                new UserInfo { UserId = 5, UserName = "susan", UserPassword = "susanpass", FullName = "susan Fullname", RollNo = "", UserClass = "", Specification = "teacher", Section = "", IsActive = true, UserRoleId = 3, AdmissionDate = DateTime.UtcNow }
             );
 
             modelBuilder.Entity<SupportInformation>().HasData(

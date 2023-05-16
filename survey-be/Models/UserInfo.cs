@@ -13,7 +13,7 @@ namespace survey_be.Models
         public string UserClass { get; set; }
         public string Specification { get; set; }
         public string Section { get; set; }
-		public string AdmissionDate { get; set; }
+		public DateTime AdmissionDate { get; set; }
 		public bool IsActive { get; set; }
 
         public int UserRoleId { get; set; }
