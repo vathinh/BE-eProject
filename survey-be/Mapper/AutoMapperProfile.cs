@@ -31,9 +31,11 @@ namespace survey_be.Mapper
             CreateMap<Survey, SurveyParticipantsDTO>().ReverseMap();
             CreateMap<UserInfo, UserParticipantsDTO>().ReverseMap();
 
+			//USER
+			CreateMap<UserDTO, UserInfo>();
+			CreateMap<UserInfo, UserDTO>().ReverseMap();
 
 
-
-        }
+		}
     }
 }
