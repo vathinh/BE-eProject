@@ -9,14 +9,17 @@ namespace survey_be.Mapper
         public AutoMapperProfile()
         {
             CreateMap<SurveyDTO, Survey>();
-            CreateMap<Survey, SurveyDTO>().ReverseMap(); 
+            CreateMap<Survey, SurveyDTO>().ReverseMap();
             CreateMap<QuestionDTO, Question>();
             CreateMap<Question, QuestionDTO>().ReverseMap();
             CreateMap<AnswerDTO, Answer>();
             CreateMap<Answer, AnswerDTO>().ReverseMap();
             CreateMap<CompetitionContentDTO, CompetitionContent>();
+            CreateMap<CompetitionContent, CompetitionContentDTO>().ReverseMap();
             CreateMap<FaqDTO, Faq>();
+            CreateMap<Faq, FaqDTO>().ReverseMap();
             CreateMap<SupportInformationDTO, SupportInformation>();
+            CreateMap<SupportInformation, SupportInformationDTO>().ReverseMap();
             CreateMap<ResponseDTO, Response>();
             CreateMap<Response, ResponseDTO>().ReverseMap();
             CreateMap<Response, ParticipatesDTO>()
