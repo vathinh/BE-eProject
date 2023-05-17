@@ -146,5 +146,43 @@ namespace survey_be.Controllers
             }
 
         }
+
+        // DELETE: api/Faq/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFaq(int id)
+        {
+            if (_context.Faqs == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
+            }
+
+            var faqToDelete = await _context
+                .Faqs
+                .Where(_ => _.FaqId == id)
+                .FirstOrDefaultAsync();
+
+            if (faqToDelete == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
+            }
+            _context.Faqs.Remove(faqToDelete);
+            await _context.SaveChangesAsync();
+            return Ok(new Models.HttpResponseSuccess
+            {
+                status = HttpStatusCode.OK,
+                title = "Delete data successfully",
+                data = null
+            });
+        }
     }
 }
