@@ -159,5 +159,43 @@ namespace survey_be.Controllers
                 data = null
             });
         }
+
+        // DELETE: api/CompetitionContent/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompetitionContent(int id)
+        {
+            if (_context.CompetitionContents == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
+            }
+
+            var competitionContentToDelete = await _context
+                .CompetitionContents.Include(_ => _.CompetitionResults)
+                .Where(_ => _.CompetitionContentId == id)
+                .FirstOrDefaultAsync();
+
+            if (competitionContentToDelete == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Delete data fail",
+                    data = null
+                });
+            }
+            _context.CompetitionContents.Remove(competitionContentToDelete);
+            await _context.SaveChangesAsync();
+            return Ok(new Models.HttpResponseSuccess
+            {
+                status = HttpStatusCode.OK,
+                title = "Delete data successfully",
+                data = null
+            });
+        }
     }
 }
