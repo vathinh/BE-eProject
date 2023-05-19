@@ -18,6 +18,8 @@ using survey_be.Data;
 using survey_be.Dtos;
 using survey_be.Models;
 
+using CodeFirstDemo.Services;
+
 namespace survey_be.Controllers
 {
 	[Route("api/[controller]")]
@@ -29,14 +31,16 @@ namespace survey_be.Controllers
 		private readonly IConfiguration _configuration;
 		private readonly IMapper _mapper; // ver 01
 
+		private readonly IUriService _uriService;
 
 
-		public UserInfoesController(SurveyDbContext context, IConfiguration configuration, IMapper mapper)
+
+		public UserInfoesController(SurveyDbContext context, IConfiguration configuration, IMapper mapper, IUriService uriService)
 		{
 			_context = context;
 			_configuration = configuration;
 			_mapper = mapper; // ver 01
-
+			_uriService = uriService;
 		}
 
 		// POST: api/UserInfoes
@@ -114,7 +118,7 @@ namespace survey_be.Controllers
 
 		// GET: api/UserInfoes
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<UserDTO>>> GetUserInfos()
+		public async Task<ActionResult<IEnumerable<UserDTO>>> GetSurveys([FromQuery] PaginationFilter filter)
 		{
 			if (_context.UserInfos == null)
 			{
@@ -126,7 +130,26 @@ namespace survey_be.Controllers
 				});
 			}
 
-			return Ok(userinfo);
+			var route = Request.Path.Value;
+			var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+			var users = await _context.UserInfos
+				.Include(_ => _.SupportInformations)
+				.Include(_ => _.Responses)
+				.ToListAsync();
+
+			var userDTOs = _mapper.Map<List<UserDTO>>(users);
+			var totalRecords = userDTOs.Count;
+
+			var pagedData = userDTOs
+				.Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+				.Take(validFilter.PageSize)
+				.ToList();
+
+			var pagedResponse = PaginationHelper.CreatePagedReponse<UserDTO>(pagedData, validFilter, totalRecords, _uriService, route);
+
+			return Ok(pagedResponse);
+			//return Ok(userinfo);
 		}
 
 		// GET: api/UserInfoes/
