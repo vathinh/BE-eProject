@@ -102,30 +102,32 @@ namespace survey_be.Controllers
 
 
 		// GET: api/UserInfoes
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<UserInfo>>> GetUserInfos()
-		{
-			if (_context.UserInfos == null)
-			{
-				return NotFound();
-			}
-			return await _context.UserInfos.ToListAsync();
-		}
-
-		//public async Task<ActionResult<IEnumerable<UserDTO>>> GetUserInfos()
+		//[HttpGet]
+		//public async Task<ActionResult<IEnumerable<UserInfo>>> GetUserInfos()
 		//{
 		//	if (_context.UserInfos == null)
 		//	{
-		//		return NotFound(new Models.HttpResponseError
-		//		{
-		//			status = HttpStatusCode.NotFound,
-		//			title = "Get data fail",
-		//			data = null
-		//		});
+		//		return NotFound();
 		//	}
-
-		//	return Ok(userinfo);
+		//	return await _context.UserInfos.ToListAsync();
 		//}
+
+		// GET: api/UserInfoes
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<UserDTO>>> GetUserInfos()
+		{
+			if (_context.UserInfos == null)
+			{
+				return NotFound(new Models.HttpResponseError
+				{
+					status = HttpStatusCode.NotFound,
+					title = "Get data fail",
+					data = null
+				});
+			}
+
+			return Ok(userinfo);
+		}
 
 		// GET: api/UserInfoes/
 		[HttpGet("{id}")]
