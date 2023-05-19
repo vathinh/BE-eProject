@@ -155,16 +155,16 @@ namespace survey_be.Migrations
                 name: "CompetitionResults",
                 columns: table => new
                 {
-                    NumberUserJoined = table.Column<int>(type: "integer", nullable: false)
+                    CompetitionResultId= table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CompetitionResultId = table.Column<int>(type: "integer", nullable: false),
+                    NumberUserJoined = table.Column<int>(type: "integer", nullable: false),
                     ResponseId = table.Column<int>(type: "integer", nullable: false),
                     PrizeId = table.Column<int>(type: "integer", nullable: false),
                     CompetitionContentId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CompetitionResults", x => x.NumberUserJoined);
+                    table.PrimaryKey("PK_CompetitionResults", x => x.CompetitionResultId);
                     table.ForeignKey(
                         name: "FK_CompetitionResults_CompetitionContents_CompetitionContentId",
                         column: x => x.CompetitionContentId,
@@ -265,12 +265,12 @@ namespace survey_be.Migrations
 
             migrationBuilder.InsertData(
                 table: "CompetitionResults",
-                columns: new[] { "NumberUserJoined", "CompetitionContentId", "CompetitionResultId", "PrizeId", "ResponseId" },
+                columns: new[] { "CompetitionResultId", "CompetitionContentId", "NumberUserJoined", "PrizeId", "ResponseId" },
                 values: new object[,]
                 {
-                    { 8, 3, 0, 3, 3 },
-                    { 10, 1, 0, 1, 1 },
-                    { 15, 2, 0, 2, 2 }
+                    { 1, 3, 10, 3, 3},
+                    { 2, 1, 20, 1, 1},
+                    { 3, 2, 30, 2, 2}
                 });
 
             migrationBuilder.CreateIndex(
