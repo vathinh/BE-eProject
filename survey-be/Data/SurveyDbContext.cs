@@ -95,7 +95,6 @@ namespace survey_be.Data
             {
                 entity.HasKey(e => e.NumberUserJoined);
 
-
                 entity.HasOne(e => e.Response)
                       .WithMany(e => e.CompetitionResults)
                       .HasForeignKey(e => e.ResponseId)
@@ -256,11 +255,11 @@ namespace survey_be.Data
                  new Response { ResponseId = 9, TotalMark = 8, UserId = 3, SurveyId = 3 }
              );
 
-            modelBuilder.Entity<CompetitionResult>().HasData(
-                new CompetitionResult { NumberUserJoined = 10, ResponseId = 1, CompetitionContentId = 1, PrizeId = 1 },
-                new CompetitionResult { NumberUserJoined = 15, ResponseId = 2, CompetitionContentId = 2, PrizeId = 2 },
-                new CompetitionResult { NumberUserJoined = 8, ResponseId = 3, CompetitionContentId = 3, PrizeId = 3 }
-            );
+          //  modelBuilder.Entity<CompetitionResult>().HasData(
+            //    new CompetitionResult { NumberUserJoined = 10, HighestMark = 9, ResponseId = 1, CompetitionContentId = 1, PrizeId = 1 },
+              //  new CompetitionResult { NumberUserJoined = 15, HighestMark = 4, ResponseId = 2, CompetitionContentId = 2, PrizeId = 2 },
+              //  new CompetitionResult { NumberUserJoined = 8, HighestMark = 6, ResponseId = 3, CompetitionContentId = 3, PrizeId = 3 }
+           // );
 
             modelBuilder.Entity<Prize>().HasData(
                 new Prize { PrizeId = 1, PrizeName = "First Prize", PrizeDescription = "A brand new iPhone" },
