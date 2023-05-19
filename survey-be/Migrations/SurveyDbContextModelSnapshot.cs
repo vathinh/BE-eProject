@@ -101,35 +101,35 @@ namespace survey_be.Migrations
 
                 b.ToTable("CompetitionContents");
 
-                b.HasData(
-                    new
-                    {
-                        CompetitionContentId = 1,
-                        Location = "District 1",
-                        Name = "Competition 1",
-                        SurveyId = 1,
-                        TimeEndCompetition = new DateTime(2023, 5, 18, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4051),
-                        TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4049)
-                    },
-                    new
-                    {
-                        CompetitionContentId = 2,
-                        Location = "District 2",
-                        Name = "Competition 2",
-                        SurveyId = 2,
-                        TimeEndCompetition = new DateTime(2023, 5, 25, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4059),
-                        TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4058)
-                    },
-                    new
-                    {
-                        CompetitionContentId = 3,
-                        Location = "District 3",
-                        Name = "Competition 3",
-                        SurveyId = 3,
-                        TimeEndCompetition = new DateTime(2023, 6, 1, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4061),
-                        TimeStartCompetition = new DateTime(2023, 5, 11, 8, 59, 50, 830, DateTimeKind.Utc).AddTicks(4060)
-                    });
-            });
+                    b.HasData(
+                        new
+                        {
+                            CompetitionContentId = 1,
+                            Location = "District 1",
+                            Name = "Competition 1",
+                            SurveyId = 1,
+                            TimeEndCompetition = new DateTime(2023, 5, 23, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6176),
+                            TimeStartCompetition = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6175)
+                        },
+                        new
+                        {
+                            CompetitionContentId = 2,
+                            Location = "District 2",
+                            Name = "Competition 2",
+                            SurveyId = 2,
+                            TimeEndCompetition = new DateTime(2023, 5, 30, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6182),
+                            TimeStartCompetition = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6182)
+                        },
+                        new
+                        {
+                            CompetitionContentId = 3,
+                            Location = "District 3",
+                            Name = "Competition 3",
+                            SurveyId = 3,
+                            TimeEndCompetition = new DateTime(2023, 6, 6, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6184),
+                            TimeStartCompetition = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6184)
+                        });
+                });
 
             modelBuilder.Entity("survey_be.Models.CompetitionResult", b =>
             {
@@ -285,13 +285,9 @@ namespace survey_be.Migrations
                 b.Property<int>("SurveyId")
                     .HasColumnType("integer");
 
-                b.Property<string>("Title")
-                    .IsRequired()
-                    .HasColumnType("text");
-
-                b.Property<string>("Type")
-                    .IsRequired()
-                    .HasColumnType("text");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                 b.HasKey("QuestionId");
 
@@ -299,32 +295,29 @@ namespace survey_be.Migrations
 
                 b.ToTable("Questions");
 
-                b.HasData(
-                    new
-                    {
-                        QuestionId = 1,
-                        QuestionContent = "Question Content 1",
-                        SurveyId = 1,
-                        Title = "Question 1",
-                        Type = "Type 1"
-                    },
-                    new
-                    {
-                        QuestionId = 2,
-                        QuestionContent = "Question Content 2",
-                        SurveyId = 1,
-                        Title = "Question 2",
-                        Type = "Type 2"
-                    },
-                    new
-                    {
-                        QuestionId = 3,
-                        QuestionContent = "Question Content 3",
-                        SurveyId = 2,
-                        Title = "Question 3",
-                        Type = "Type 3"
-                    });
-            });
+                    b.HasData(
+                        new
+                        {
+                            QuestionId = 1,
+                            QuestionContent = "Question Content 1",
+                            SurveyId = 1,
+                            Type = "Type 1"
+                        },
+                        new
+                        {
+                            QuestionId = 2,
+                            QuestionContent = "Question Content 2",
+                            SurveyId = 1,
+                            Type = "Type 2"
+                        },
+                        new
+                        {
+                            QuestionId = 3,
+                            QuestionContent = "Question Content 3",
+                            SurveyId = 2,
+                            Type = "Type 3"
+                        });
+                });
 
             modelBuilder.Entity("survey_be.Models.Response", b =>
             {
@@ -523,8 +516,15 @@ namespace survey_be.Migrations
 
                 NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
-                b.Property<bool>("IsActive")
-                    .HasColumnType("boolean");
+                    b.Property<DateTime>("AdmissionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                 b.Property<string>("RollNo")
                     .IsRequired()
@@ -559,68 +559,78 @@ namespace survey_be.Migrations
 
                 b.ToTable("UserInfos");
 
-                b.HasData(
-                    new
-                    {
-                        UserId = 1,
-                        IsActive = true,
-                        RollNo = "",
-                        Section = "",
-                        Specification = "",
-                        UserClass = "",
-                        UserName = "admin",
-                        UserPassword = "adminpass",
-                        UserRoleId = 1
-                    },
-                    new
-                    {
-                        UserId = 2,
-                        IsActive = true,
-                        RollNo = "001",
-                        Section = "A",
-                        Specification = "science",
-                        UserClass = "12A",
-                        UserName = "john",
-                        UserPassword = "johnpass",
-                        UserRoleId = 2
-                    },
-                    new
-                    {
-                        UserId = 3,
-                        IsActive = true,
-                        RollNo = "101",
-                        Section = "B",
-                        Specification = "arts",
-                        UserClass = "11B",
-                        UserName = "jane",
-                        UserPassword = "janepass",
-                        UserRoleId = 2
-                    },
-                    new
-                    {
-                        UserId = 4,
-                        IsActive = true,
-                        RollNo = "",
-                        Section = "",
-                        Specification = "librarian",
-                        UserClass = "",
-                        UserName = "peter",
-                        UserPassword = "peterpass",
-                        UserRoleId = 3
-                    },
-                    new
-                    {
-                        UserId = 5,
-                        IsActive = true,
-                        RollNo = "",
-                        Section = "",
-                        Specification = "teacher",
-                        UserClass = "",
-                        UserName = "susan",
-                        UserPassword = "susanpass",
-                        UserRoleId = 3
-                    });
-            });
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6113),
+                            FullName = "Admin Fullname",
+                            IsActive = true,
+                            RollNo = "",
+                            Section = "",
+                            Specification = "",
+                            UserClass = "",
+                            UserName = "admin",
+                            UserPassword = "adminpass",
+                            UserRoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6115),
+                            FullName = "john Fullname",
+                            IsActive = true,
+                            RollNo = "001",
+                            Section = "A",
+                            Specification = "science",
+                            UserClass = "12A",
+                            UserName = "john",
+                            UserPassword = "johnpass",
+                            UserRoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6117),
+                            FullName = "jane Fullname",
+                            IsActive = true,
+                            RollNo = "101",
+                            Section = "B",
+                            Specification = "arts",
+                            UserClass = "11B",
+                            UserName = "jane",
+                            UserPassword = "janepass",
+                            UserRoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6119),
+                            FullName = "peter Fullname",
+                            IsActive = true,
+                            RollNo = "",
+                            Section = "",
+                            Specification = "librarian",
+                            UserClass = "",
+                            UserName = "peter",
+                            UserPassword = "peterpass",
+                            UserRoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6120),
+                            FullName = "susan Fullname",
+                            IsActive = true,
+                            RollNo = "",
+                            Section = "",
+                            Specification = "teacher",
+                            UserClass = "",
+                            UserName = "susan",
+                            UserPassword = "susanpass",
+                            UserRoleId = 3
+                        });
+                });
 
             modelBuilder.Entity("survey_be.Models.UserRole", b =>
             {
