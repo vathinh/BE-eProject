@@ -189,23 +189,23 @@ namespace survey_be.Data
 
 
             // Seed data
-            modelBuilder.Entity<Survey>().HasData(
-                new Survey { SurveyId = 1, Title = "Survey 1", Description = "Description for Survey 1", Img = "img1.jpg", UserRoleId = 2 },
-                new Survey { SurveyId = 2, Title = "Survey 2", Description = "Description for Survey 2", Img = "img2.jpg", UserRoleId = 2 },
-                new Survey { SurveyId = 3, Title = "Survey 3", Description = "Description for Survey 3", Img = "img3.jpg", UserRoleId = 3 }
-            );
+            //modelBuilder.Entity<Survey>().HasData(
+            //    new Survey { SurveyId = 1, Title = "Survey 1", Description = "Description for Survey 1", Img = "img1.jpg", UserRoleId = 2 },
+            //    new Survey { SurveyId = 2, Title = "Survey 2", Description = "Description for Survey 2", Img = "img2.jpg", UserRoleId = 2 },
+            //    new Survey { SurveyId = 3, Title = "Survey 3", Description = "Description for Survey 3", Img = "img3.jpg", UserRoleId = 3 }
+            //);
 
-            modelBuilder.Entity<Question>().HasData(
-                new Question { QuestionId = 1, Type = "Type 1", QuestionContent = "Question Content 1", SurveyId = 1 },
-                new Question { QuestionId = 2, Type = "Type 2", QuestionContent = "Question Content 2", SurveyId = 1 },
-                new Question { QuestionId = 3, Type = "Type 3", QuestionContent = "Question Content 3", SurveyId = 2 }
-            );
+            //modelBuilder.Entity<Question>().HasData(
+            //    new Question { QuestionId = 1, Type = "Type 1", QuestionContent = "Question Content 1", SurveyId = 1 },
+            //    new Question { QuestionId = 2, Type = "Type 2", QuestionContent = "Question Content 2", SurveyId = 1 },
+            //    new Question { QuestionId = 3, Type = "Type 3", QuestionContent = "Question Content 3", SurveyId = 2 }
+            //);
 
-            modelBuilder.Entity<Answer>().HasData(
-                new Answer { AnswerId = 1, CorrectAnswer = true, AnswerContent = "Answer Content 1", QuestionId = 1 },
-                new Answer { AnswerId = 2, CorrectAnswer = false, AnswerContent = "Answer Content 2", QuestionId = 1 },
-                new Answer { AnswerId = 3, CorrectAnswer = true, AnswerContent = "Answer Content 3", QuestionId = 2 }
-            );
+            //modelBuilder.Entity<Answer>().HasData(
+            //    new Answer { AnswerId = 1, CorrectAnswer = true, AnswerContent = "Answer Content 1", QuestionId = 1 },
+            //    new Answer { AnswerId = 2, CorrectAnswer = false, AnswerContent = "Answer Content 2", QuestionId = 1 },
+            //    new Answer { AnswerId = 3, CorrectAnswer = true, AnswerContent = "Answer Content 3", QuestionId = 2 }
+            //);
 
 
             modelBuilder.Entity<UserRole>().HasData(
@@ -243,17 +243,17 @@ namespace survey_be.Data
                 }
             );
 
-            modelBuilder.Entity<Response>().HasData(
-                 new Response { ResponseId = 1, TotalMark = 8, UserId = 1, SurveyId = 1 },
-                 new Response { ResponseId = 2, TotalMark = 6, UserId = 2, SurveyId = 1 },
-                 new Response { ResponseId = 3, TotalMark = 9, UserId = 3, SurveyId = 1 },
-                 new Response { ResponseId = 4, TotalMark = 7, UserId = 1, SurveyId = 2 },
-                 new Response { ResponseId = 5, TotalMark = 5, UserId = 2, SurveyId = 2 },
-                 new Response { ResponseId = 6, TotalMark = 8, UserId = 3, SurveyId = 2 },
-                 new Response { ResponseId = 7, TotalMark = 9, UserId = 1, SurveyId = 3 },
-                 new Response { ResponseId = 8, TotalMark = 7, UserId = 2, SurveyId = 3 },
-                 new Response { ResponseId = 9, TotalMark = 8, UserId = 3, SurveyId = 3 }
-             );
+            //modelBuilder.Entity<Response>().HasData(
+            //     new Response { ResponseId = 1, TotalMark = 8, UserId = 1, SurveyId = 1 },
+            //     new Response { ResponseId = 2, TotalMark = 6, UserId = 2, SurveyId = 1 },
+            //     new Response { ResponseId = 3, TotalMark = 9, UserId = 3, SurveyId = 1 },
+            //     new Response { ResponseId = 4, TotalMark = 7, UserId = 1, SurveyId = 2 },
+            //     new Response { ResponseId = 5, TotalMark = 5, UserId = 2, SurveyId = 2 },
+            //     new Response { ResponseId = 6, TotalMark = 8, UserId = 3, SurveyId = 2 },
+            //     new Response { ResponseId = 7, TotalMark = 9, UserId = 1, SurveyId = 3 },
+            //     new Response { ResponseId = 8, TotalMark = 7, UserId = 2, SurveyId = 3 },
+            //     new Response { ResponseId = 9, TotalMark = 8, UserId = 3, SurveyId = 3 }
+            // );
 
           //  modelBuilder.Entity<CompetitionResult>().HasData(
             //    new CompetitionResult { NumberUserJoined = 10, HighestMark = 9, ResponseId = 1, CompetitionContentId = 1, PrizeId = 1 },
@@ -261,17 +261,17 @@ namespace survey_be.Data
               //  new CompetitionResult { NumberUserJoined = 8, HighestMark = 6, ResponseId = 3, CompetitionContentId = 3, PrizeId = 3 }
            // );
 
-            modelBuilder.Entity<Prize>().HasData(
-                new Prize { PrizeId = 1, PrizeName = "First Prize", PrizeDescription = "A brand new iPhone" },
-                new Prize { PrizeId = 2, PrizeName = "Second Prize", PrizeDescription = "A high-end gaming laptop" },
-                new Prize { PrizeId = 3, PrizeName = "Third Prize", PrizeDescription = "A 50-inch 4K Smart TV" }
-            );
+            //modelBuilder.Entity<Prize>().HasData(
+            //    new Prize { PrizeId = 1, PrizeName = "First Prize", PrizeDescription = "A brand new iPhone" },
+            //    new Prize { PrizeId = 2, PrizeName = "Second Prize", PrizeDescription = "A high-end gaming laptop" },
+            //    new Prize { PrizeId = 3, PrizeName = "Third Prize", PrizeDescription = "A 50-inch 4K Smart TV" }
+            //);
 
-            modelBuilder.Entity<CompetitionContent>().HasData(
-                new CompetitionContent { CompetitionContentId = 1, Name = "Competition 1", TimeStartCompetition = DateTime.UtcNow, TimeEndCompetition = DateTime.UtcNow.AddDays(7), SurveyId = 1, Location = "District 1" },
-                new CompetitionContent { CompetitionContentId = 2, Name = "Competition 2", TimeStartCompetition = DateTime.UtcNow, TimeEndCompetition = DateTime.UtcNow.AddDays(14), SurveyId = 2, Location = "District 2" },
-                new CompetitionContent { CompetitionContentId = 3, Name = "Competition 3", TimeStartCompetition = DateTime.UtcNow, TimeEndCompetition = DateTime.UtcNow.AddDays(21), SurveyId = 3, Location = "District 3" }
-            );
+            //modelBuilder.Entity<CompetitionContent>().HasData(
+            //    new CompetitionContent { CompetitionContentId = 1, Name = "Competition 1", TimeStartCompetition = DateTime.UtcNow, TimeEndCompetition = DateTime.UtcNow.AddDays(7), SurveyId = 1, Location = "District 1" },
+            //    new CompetitionContent { CompetitionContentId = 2, Name = "Competition 2", TimeStartCompetition = DateTime.UtcNow, TimeEndCompetition = DateTime.UtcNow.AddDays(14), SurveyId = 2, Location = "District 2" },
+            //    new CompetitionContent { CompetitionContentId = 3, Name = "Competition 3", TimeStartCompetition = DateTime.UtcNow, TimeEndCompetition = DateTime.UtcNow.AddDays(21), SurveyId = 3, Location = "District 3" }
+            //);
 
 
 
