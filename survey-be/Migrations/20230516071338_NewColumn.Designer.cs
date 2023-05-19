@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using survey_be.Data;
@@ -11,9 +12,11 @@ using survey_be.Data;
 namespace survey_be.Migrations
 {
     [DbContext(typeof(SurveyDbContext))]
-    partial class SurveyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516071338_NewColumn")]
+    partial class NewColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,8 +111,8 @@ namespace survey_be.Migrations
                             Location = "District 1",
                             Name = "Competition 1",
                             SurveyId = 1,
-                            TimeEndCompetition = new DateTime(2023, 5, 23, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6176),
-                            TimeStartCompetition = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6175)
+                            TimeEndCompetition = new DateTime(2023, 5, 23, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(5011),
+                            TimeStartCompetition = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(5010)
                         },
                         new
                         {
@@ -117,8 +120,8 @@ namespace survey_be.Migrations
                             Location = "District 2",
                             Name = "Competition 2",
                             SurveyId = 2,
-                            TimeEndCompetition = new DateTime(2023, 5, 30, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6182),
-                            TimeStartCompetition = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6182)
+                            TimeEndCompetition = new DateTime(2023, 5, 30, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(5016),
+                            TimeStartCompetition = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(5016)
                         },
                         new
                         {
@@ -126,8 +129,8 @@ namespace survey_be.Migrations
                             Location = "District 3",
                             Name = "Competition 3",
                             SurveyId = 3,
-                            TimeEndCompetition = new DateTime(2023, 6, 6, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6184),
-                            TimeStartCompetition = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6184)
+                            TimeEndCompetition = new DateTime(2023, 6, 6, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(5018),
+                            TimeStartCompetition = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(5018)
                         });
                 });
 
@@ -285,6 +288,10 @@ namespace survey_be.Migrations
                     b.Property<int>("SurveyId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
@@ -301,6 +308,7 @@ namespace survey_be.Migrations
                             QuestionId = 1,
                             QuestionContent = "Question Content 1",
                             SurveyId = 1,
+                            Title = "Question 1",
                             Type = "Type 1"
                         },
                         new
@@ -308,6 +316,7 @@ namespace survey_be.Migrations
                             QuestionId = 2,
                             QuestionContent = "Question Content 2",
                             SurveyId = 1,
+                            Title = "Question 2",
                             Type = "Type 2"
                         },
                         new
@@ -315,6 +324,7 @@ namespace survey_be.Migrations
                             QuestionId = 3,
                             QuestionContent = "Question Content 3",
                             SurveyId = 2,
+                            Title = "Question 3",
                             Type = "Type 3"
                         });
                 });
@@ -563,7 +573,7 @@ namespace survey_be.Migrations
                         new
                         {
                             UserId = 1,
-                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6113),
+                            AdmissionDate = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(4917),
                             FullName = "Admin Fullname",
                             IsActive = true,
                             RollNo = "",
@@ -577,7 +587,7 @@ namespace survey_be.Migrations
                         new
                         {
                             UserId = 2,
-                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6115),
+                            AdmissionDate = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(4920),
                             FullName = "john Fullname",
                             IsActive = true,
                             RollNo = "001",
@@ -591,7 +601,7 @@ namespace survey_be.Migrations
                         new
                         {
                             UserId = 3,
-                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6117),
+                            AdmissionDate = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(4922),
                             FullName = "jane Fullname",
                             IsActive = true,
                             RollNo = "101",
@@ -605,7 +615,7 @@ namespace survey_be.Migrations
                         new
                         {
                             UserId = 4,
-                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6119),
+                            AdmissionDate = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(4924),
                             FullName = "peter Fullname",
                             IsActive = true,
                             RollNo = "",
@@ -619,7 +629,7 @@ namespace survey_be.Migrations
                         new
                         {
                             UserId = 5,
-                            AdmissionDate = new DateTime(2023, 5, 16, 10, 13, 0, 952, DateTimeKind.Utc).AddTicks(6120),
+                            AdmissionDate = new DateTime(2023, 5, 16, 7, 13, 38, 97, DateTimeKind.Utc).AddTicks(4926),
                             FullName = "susan Fullname",
                             IsActive = true,
                             RollNo = "",
