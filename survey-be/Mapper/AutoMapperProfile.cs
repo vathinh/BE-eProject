@@ -29,13 +29,13 @@ namespace survey_be.Mapper
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserInfo.UserName));
 
             CreateMap<Survey, SurveyParticipantsDTO>().ReverseMap();
-            CreateMap<UserInfo, UserParticipantsDTO>().ReverseMap();
+            CreateMap<UserInfo, UserParticipantsDTO>().ReverseMap();    
 
 			//USER
 			CreateMap<UserDTO, UserInfo>();
 			CreateMap<UserInfo, UserDTO>().ReverseMap();
 
-
+            CreateMap<UpdateSurveyDTO, Survey>();
 		}
     }
 }

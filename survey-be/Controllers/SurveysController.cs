@@ -40,7 +40,7 @@ namespace survey_be.Controllers
         public async Task<ActionResult<IEnumerable<SurveyDTO>>> GetSurveys([FromQuery] PaginationFilter filter)
         {
             if (_context.Surveys == null)
-          {
+            {
                 return NotFound(new Models.HttpResponseError
                 {
                     status = HttpStatusCode.NotFound,
@@ -73,8 +73,8 @@ namespace survey_be.Controllers
         [HttpGet("role/{id}")]
         public async Task<ActionResult<SurveyDTO>> GetSurveyByRole(int id, [FromQuery] PaginationFilter filter)
         {
-          if (_context.Surveys == null)
-          {
+            if (_context.Surveys == null)
+            {
                 return NotFound(new Models.HttpResponseError
                 {
                     status = HttpStatusCode.NotFound,
@@ -83,9 +83,9 @@ namespace survey_be.Controllers
                 });
             }
             var survey = await _context.Surveys
-                .Include(_=>_.Questions)
-                .ThenInclude(_=>_.Answers)
-                .Where(_=>_.UserRoleId == id).ToListAsync();
+                .Include(_ => _.Questions)
+                .ThenInclude(_ => _.Answers)
+                .Where(_ => _.UserRoleId == id).ToListAsync();
             var surveyDTO = _mapper.Map<List<SurveyDTO>>(survey);
 
             if (survey == null)
@@ -166,7 +166,7 @@ namespace survey_be.Controllers
                 return NotFound(new Models.HttpResponseError
                 {
                     status = HttpStatusCode.NotFound,
-                    title = "Update data fail "+ ex.Message,
+                    title = "Update data fail " + ex.Message,
                     data = null
                 });
             }
@@ -204,7 +204,7 @@ namespace survey_be.Controllers
                     data = null
                 });
             }
-     
+
         }
 
         // DELETE: api/Surveys/5
@@ -223,7 +223,7 @@ namespace survey_be.Controllers
 
             var surveyToDelete = await _context
                 .Surveys.Include(_ => _.Questions)
-                .ThenInclude(_=>_.Answers)
+                .ThenInclude(_ => _.Answers)
                 .Where(_ => _.SurveyId == id)
                 .FirstOrDefaultAsync();
 
@@ -239,6 +239,44 @@ namespace survey_be.Controllers
             _context.Surveys.Remove(surveyToDelete);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        // PUT: api/Surveys/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSurvey(int id,UpdateSurveyDTO payloadSurvey)
+        {
+
+            if (_context.Surveys == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "No data found",
+                    data = null
+                });
+            }
+
+            var surveyToUpdate = await _context
+                .Surveys.Include(_ => _.Questions)
+                .ThenInclude(_ => _.Answers)
+                .Where(_ => _.SurveyId == id)
+                .FirstOrDefaultAsync();
+
+            if (surveyToUpdate == null)
+            {
+                return NotFound(new Models.HttpResponseError
+                {
+                    status = HttpStatusCode.NotFound,
+                    title = "Not found data to update",
+                    data = null
+                });
+            }
+            var updateSurvey = _mapper.Map(payloadSurvey, surveyToUpdate);
+            _context.Surveys.Update(updateSurvey);
+            await _context.SaveChangesAsync();
+            return Ok(updateSurvey);
+
         }
 
         private bool SurveyExists(int id)
